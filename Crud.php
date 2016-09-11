@@ -87,7 +87,7 @@ class Crud {
         $fields = "";
         $values = "";
         
-        // build the statement with fields and values;
+        // build the statement with fields and values
         foreach ($dataArray as $key => $value) {
             $fields .= $key . ', ';
             //$values .= '?, ';
@@ -105,6 +105,70 @@ class Crud {
         
         // return the String containing the SQL query
         return trim($sql);
+    }
+    
+    /**
+     * This method builds a SQL INSERT query
+     * 
+     * @param type $dataArray = Data Array containing fields and values
+     * @param type $arrayClause = Data Array containing fields and values for the WHERE clause
+     * @return String containing the SQL statement 
+     */
+    public function buildUpdate($dataArray, $arrayClause) {
+        
+        $sql = "";
+        $fields = "";
+        $clause = "";
+        
+        // build the statement with fields and values;
+        foreach ($dataArray as $key => $value) {
+            $fields .= $key . '=? ';
+        }
+        
+        // build the WHERE clause
+        foreach ($arrayClause as $key => $value) {
+            $clause .= $key . '? AND '; 
+        }
+        
+        // remove the comma at the final of the String
+        $fields = (substr($fields, -2) == ', ') ? trim(substr($fields, 0, (strlen($fields) -2))) : $fields;
+        
+        // remove the 'AND' at the final of the String
+        $clause = (substr($clause, -4) == 'AND ') ? trim(substr($clause, 0, (strlen($clause) -4))) : $clause;
+        
+        // create the query using the $fields and the  WHERE $clause
+        $sql .= "UPDATE {$this->table} SET " . $fields . " WHERE " . $clause;
+        
+        // return the String containing the SQL query
+        return trim($sql);
+        
+    }
+    
+    /**
+     * This method builds a SQL INSERT query
+     * 
+     * @param type $arrayClause = Data Array containing fields and values for the WHERE clause
+     * @return String containing SQL statement
+     */
+    public function buildDelete($arrayClause) {
+        
+        $sql = "";
+        $clause = "";
+        
+        // build the WHERE clause
+        foreach ($arrayClause as $key => $value) {
+            $clause .= $key . '? AND ';
+        }
+        
+        // remove the 'AND' at the final of the String
+        $clause = (substr($clause, -4) == 'AND ') ? trim(substr($clause, 0, (strlen($clause) -4))) : $clause;
+        
+        // create the query using the WHERE $clause
+        $sql .= "DELETE FROM {$this->table} WHERE " . $clause;
+        
+        // return the String containing the sql query
+        return trim($sql);
+        
     }
     
 }
