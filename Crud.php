@@ -171,4 +171,77 @@ class Crud {
         
     }
     
+    /**
+     * This method will insert data in the table
+     * 
+     * @param type $dataArray = Data Array containing fields and values
+     * @return Boolean result for the SQL instruction
+     */
+    public function insert($dataArray) {
+        try {
+            
+            // build the sql query
+            $sql = $this->buildInsert($dataArray);
+
+            // Pass the instruction(query) to PDO
+            $stm = $this->pdo->prepare($sql);
+
+            // Loop to pass the data as parameter
+            $count = 1;
+            foreach ($dataArray as $value) {
+                $stm->bindValue($count, $value);
+                $count++;
+            }
+            
+            // Execute SQL statement and get the result
+            $result = $stm->execute();
+            
+            return $result;
+            
+        } catch (Exception $ex) {
+            echo "Error: " . $ex->getMessage();
+        }
+         
+    }
+    
+    /**
+     * This method will update data in the table
+     * 
+     * @param type $dataArray = Data Array containing fields and values
+     * @param type $arrayClause = Array containing fields and values for the WHERE clause (Ex: array('$id='=>5))
+     * @return Boolean result for the SQL instruction
+     */
+    public function update($dataArray, $arrayClause) {
+       try {
+           // build the sql query
+           $sql = $this->buildUpdate($dataArray, $arrayClause);
+           
+           // pass the instruction(query) to PDO
+           $stm = $this->pdo->prepare($sql);
+           
+           // Loop to pass the data as parameter
+           $count = 1;
+           foreach ($dataArray as $value) {
+               $stm->bindValue($count, $value);
+               $count++;
+           }
+           
+           // Loop to pass the data as parameter in WHERE clause
+           // Should I set count as 0 ??
+           foreach ($arrayClause as $value) {
+               $stm->bindValue($count, $value);
+               $count++;
+           }
+           
+           // Execute SQL statement and get the result
+           $result = $stm->execute();
+           
+           return $result;
+           
+       } catch (Exception $ex) {
+           echo "Error: " . $ex->getMessage();
+       } 
+    }
+    
+    
 }
