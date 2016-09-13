@@ -11,7 +11,9 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        // put your code here
+        require './Connection.php';
+        $conn = new Connection("localhost", "gym", "root", "");
+        //echo $conn->getConn();
         ?>
     </body>
 </html>

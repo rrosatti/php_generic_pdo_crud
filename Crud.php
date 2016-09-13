@@ -243,5 +243,79 @@ class Crud {
        } 
     }
     
+    /**
+     * This method will delete data from the table
+     * 
+     * @param type $arrayClause = Array containing fields and values for the WHERE clause (Ex: array('$id='=>5))
+     * @return Boolean result for the SQL instruction
+     */
+    public function delete($arrayClause) {
+        
+        try {
+        
+            // build the sql query
+            $sql = $this->buildDelete($arrayClause);
+        
+            // pass the instruction(query) to PDO
+            $stm = $this->pdo->prepare($sql);
+
+            // Loop to pass the data as parameter in WHERE clause
+            $count = 1;
+            foreach ($arrayClause as $value) {
+                $stm->bindValue($count, $value);
+                $count++;
+            }
+
+            // Execute SQL statement and get the result
+            $result = $stm->execute();
+
+            return $result;
+            
+        } catch (Exception $ex) {
+            echo "Error: " . $ex->getMessage();
+        }
+        
+    }
+    
+    /**
+     * This method let you execute instructions with tables that was not set in the _construct
+     * 
+     * @param type $sql
+     * @param type $arrayParams
+     * @param type $fetchAll
+     */
+    public function getSQLGeneric($sql, $arrayParams=null, $fetchAll=true) {
+        try {
+            
+            // Pass the instruction to PDO
+            $stm = $this->pdo->prepare($sql);
+            
+            // Check if there are parameters
+            if (!empty($arrayParams)) {
+                // Loop to pass the data as parameter in WHERE clause
+                $count = 1;
+                foreach ($arrayParams as $value) {
+                    $stm->bindValue($count, $value);
+                    $count++;
+                }
+            }
+            
+            // Execute SQL instruction
+            $stm->execute();
+            
+            // Check if it's necessary to return more than one line
+            if($fetchAll) {
+                $data = $stm->fetchAll(PDO::FETCH_OBJ);
+            } else {
+                $data = $stm->fetch(PDO::FETCH_OBJ);
+            }
+            
+            return $data;
+            
+        } catch (Exception $ex) {
+            echo "Error: " . $ex->getMessage();
+        }
+    }
+    
     
 }
