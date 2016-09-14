@@ -12,7 +12,11 @@ and open the template in the editor.
     <body>
         <?php
         require './Connection.php';
+        require './MuscleGroup.php';
         $conn = new Connection("localhost", "gym", "root", "");
+        $muscleGroup = new MuscleGroup();
+        $muscleGroup->setConn($conn);
+        $muscleGroup->showAllMuscleGroups();
         //echo $conn->getConn();
         ?>
     </body>

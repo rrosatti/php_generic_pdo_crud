@@ -11,7 +11,7 @@
  *
  * @author rodri
  */
-class Connection {
+class Connection extends PDO{
     
     private $host; // server name
     private $username;
@@ -21,8 +21,11 @@ class Connection {
     
     public function __construct($host, $dbname, $username, $password) {
         try {
-            $conn = new PDO("mysql:host={$host};dbname={$dbname}", $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //$conn = new PDO("mysql:host={$host};dbname={$dbname}", $username, $password);
+            //$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+        //parent::__construct($dbtype . ':host=' . $dbhost . ';dbname=' . $dbname, $dbuser, $dbpass);
+            parent::__construct('mysql' . ':host=' . $host . ';dbname=' . $dbname, $username, $password);
             echo "HEY!";
         } catch (Exception $ex) {
             echo "Error: " . $ex->getMessage();
@@ -30,7 +33,7 @@ class Connection {
     }
     
     public function getConn() {
-        return $conn;
+        return $this->conn;
     }
     
 }
