@@ -26,7 +26,7 @@ class Connection extends PDO{
             
         //parent::__construct($dbtype . ':host=' . $dbhost . ';dbname=' . $dbname, $dbuser, $dbpass);
             parent::__construct('mysql' . ':host=' . $host . ';dbname=' . $dbname, $username, $password);
-            echo "HEY!";
+            //echo "HEY!";
         } catch (Exception $ex) {
             echo "Error: " . $ex->getMessage();
         }

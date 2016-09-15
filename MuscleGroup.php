@@ -28,9 +28,21 @@ class MuscleGroup {
         $this->crud = Crud::getInstance($conn);
     }
     
-    public function showAllMuscleGroups() {
+    /**
+     * This method get all MuscleGroups in the table
+     * 
+     * @return ArrayList containing all muscle groups
+     */
+    public function readAll() {
         $sql = "SELECT * FROM muscle_group;";
-        $this->crud->getSQLGeneric($sql);
+       
+        return $this->crud->getSQLGeneric($sql);
+        //print_r($data);
+        /**foreach ($muscleGroups as $muscleGroup) {
+            echo "id: " . $muscleGroup->id . "\tName: " . $muscleGroup->name . "<br>";
+        }*/
+        
     }
+    
     
 }

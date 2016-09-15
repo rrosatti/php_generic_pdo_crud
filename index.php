@@ -14,10 +14,15 @@ and open the template in the editor.
         require './Connection.php';
         require './MuscleGroup.php';
         $conn = new Connection("localhost", "gym", "root", "");
+        
         $muscleGroup = new MuscleGroup();
         $muscleGroup->setConn($conn);
-        $muscleGroup->showAllMuscleGroups();
-        //echo $conn->getConn();
+        $muscleGroups = $muscleGroup->readAll();
+        
+        foreach ($muscleGroups as $mg) {
+            echo "<p>ID: " . $mg->id . "\tName: " . $mg->name . "</p>";
+        }
+        
         ?>
     </body>
 </html>
