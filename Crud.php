@@ -90,8 +90,8 @@ class Crud {
         // build the statement with fields and values
         foreach ($dataArray as $key => $value) {
             $fields .= $key . ', ';
-            //$values .= '?, ';
-            $values .= $value . ', ';
+            $values .= '?, ';
+            //$values .= $value . ', ';
         }
         
         // remove the comma at the final of the String

@@ -18,14 +18,11 @@ class MuscleGroup {
     private $name;
     private $crud;
     private $conn;
+    private $table = "muscle_group";
     
-    public function __construct() {
-        //$this->name = $name;
-    }
-    
-    public function setConn($conn) {
+    public function __construct($conn) {
         $this->conn = $conn;
-        $this->crud = Crud::getInstance($conn);
+        $this->crud = Crud::getInstance($conn, $this->table);
     }
     
     /**
@@ -43,6 +40,26 @@ class MuscleGroup {
         }*/
         
     }
+    
+    public function create($name) {
+        $array = array('name' => $name);
+        $this->crud->insert($array);
+    }
+    
+    public function delete($id) {
+        $clause = array("id = " => $id);
+        $this->crud->delete($clause);
+    }
+    
+    public function update($updatedValues, $clause) {
+        $this->crud->update($updatedValues, $clause);
+    }
+    
+    // create
+    
+    // delete
+    
+    // select (name)
     
     
 }

@@ -15,13 +15,20 @@ and open the template in the editor.
         require './MuscleGroup.php';
         $conn = new Connection("localhost", "gym", "root", "");
         
-        $muscleGroup = new MuscleGroup();
-        $muscleGroup->setConn($conn);
+        $muscleGroup = new MuscleGroup($conn);
         $muscleGroups = $muscleGroup->readAll();
         
         foreach ($muscleGroups as $mg) {
             echo "<p>ID: " . $mg->id . "\tName: " . $mg->name . "</p>";
         }
+        
+        //$muscleGroup->create("Random muscle");
+        //$muscleGroup->delete(8);
+        //$muscleGroup->delete(9);
+        //$updatedValues = array("name" => "Updated Random muscle");
+        //$clause = array("id = " => 11);
+        //$muscleGroup->update($updatedValues, $clause);
+        
         
         ?>
     </body>
